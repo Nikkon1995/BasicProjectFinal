@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 
 @Component({
   selector: 'app-header',
@@ -6,4 +6,12 @@ import { Component } from '@angular/core';
 })
 export class HeaderComponent {
 
+  @Output() featureEvent = new EventEmitter<string>();
+  onSelect(item: string){
+    if(item === 'recipe') {
+      this.featureEvent.emit(item);
+    } else if(item === 'shopping-list') {
+      this.featureEvent.emit(item);
+    }
+  }
 }
