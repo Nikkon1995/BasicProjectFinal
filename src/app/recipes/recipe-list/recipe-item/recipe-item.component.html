@@ -1,6 +1,8 @@
 <a
-(click)="onSelected()"
-href="#" class="list-group-item clearfix">
+style="cursor: pointer;"
+[routerLink]="[index]"
+routerLinkActive="active"
+class="list-group-item clearfix">
   <div class="pull-left">
     <h6>RECIPE ITEM COMPONENT</h6>
     <h4 class="list-group-item-heading">{{ recipe.name }}</h4>
