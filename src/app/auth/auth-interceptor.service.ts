@@ -1,4 +1,4 @@
-import { HttpEvent, HttpHandler, HttpInterceptor, HttpParams, HttpRequest } from "@angular/common/http";
+import { HttpEvent, HttpHandler, HttpHeaders, HttpInterceptor, HttpParams, HttpRequest } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { exhaustMap, take } from "rxjs/operators";
@@ -16,7 +16,8 @@ export class AuthInterceptorService implements HttpInterceptor{
                     return next.handle(req);
                 } else {
                     const modifiedReq = req.clone({
-                        params: new HttpParams().set('auth', user.token)
+                        params: new HttpParams().set('auth', user.token),
+                        // headers: new HttpHeaders({'xyz': 'abc'})
                     })
                     return next.handle(modifiedReq);
                 }
