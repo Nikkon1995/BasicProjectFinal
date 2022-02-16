@@ -1,31 +1,21 @@
 import { Injectable } from "@angular/core";
+import { Store } from "@ngrx/store";
 import { Subject } from "rxjs";
 import { Ingredient } from "../shared/ingredient.model";
 import { ShoppingListService } from "../shopping-list/shopping-list.service";
 import { Recipe } from "./recipe.model";
-
+import * as ShoppingListActions from "../shopping-list/store/shopping-list.actions" 
+import * as fromShoppingList from "../shopping-list/store/shopping-list.reducer"
+import * as fromApp from "../store/app.reducer";
 @Injectable({providedIn: 'root'})
 export class RecipeService {
     recipeChanged = new Subject<Recipe []>();
     recipeSelected = new Subject<Recipe>();
-    // private recipes: Recipe[] = [
-    //     new Recipe('Tasty Schnitzel', 
-    //     'A super tasty Schnitzel - Just Awesome', 
-    //     'https://upload.wikimedia.org/wikipedia/commons/7/72/Schnitzel.JPG',
-    //     [
-    //         new Ingredient('Meat',1),
-    //         new Ingredient('French Fries',20)
-    //     ]),
-    //     new Recipe('Big Fat Burger', 
-    //     'What more do you need to say?', 
-    //     'https://upload.wikimedia.org/wikipedia/commons/thumb/6/66/Burger_King_Big_King_XXL_Menu.jpg/800px-Burger_King_Big_King_XXL_Menu.jpg',
-    //     [
-    //         new Ingredient('Buns',2),
-    //         new Ingredient('Meat',1)
-    //     ])
-    //   ];
     private recipes: Recipe[] = [];
-    constructor(private slService: ShoppingListService) {}
+    constructor(
+        private slService: ShoppingListService,
+        private store: Store<fromApp.AppState>
+    ) {}
     
     setRecipes(recipes: Recipe[]) {
         this.recipes = recipes;
@@ -41,7 +31,8 @@ export class RecipeService {
     }
     
     addIngredientsToShoppingList(ingredients: Ingredient[]) {
-        this.slService.addIngredientsToSLFromRecipe(ingredients);
+        //this.slService.addIngredientsToSLFromRecipe(ingredients);
+        this.store.dispatch(new ShoppingListActions.AddIngredients(ingredients))
     }
 
     addRecipe(recipe: Recipe) {
