@@ -93,7 +93,7 @@ export class AuthEffect {
                         returnSecureToken: true
                     }).pipe(
                         tap(resData => {
-                            this.authService.autoLogout(+resData.expiresIn);
+                            this.authService.autoLogout(+resData.expiresIn * 1000);
                         }),
                         map(resData => {
                             return handleAuthentication(
@@ -140,7 +140,7 @@ export class AuthEffect {
                 new Date(userData._tokenExpirationDate)
             );
 
-            if (loadedUser.token) {
+            if (loadedUser._token) {
                 // this.user.next(loadedUser);
                 const expirationDuration =
                     new Date(userData._tokenExpirationDate).getTime() -
@@ -149,7 +149,7 @@ export class AuthEffect {
                 return new AuthActions.AuthenticateSuccess({
                     email: loadedUser.email,
                     userId: loadedUser.id,
-                    token: loadedUser.token,
+                    token: loadedUser._token,
                     expirationDate: new Date(userData._tokenExpirationDate)
                 });
             }
